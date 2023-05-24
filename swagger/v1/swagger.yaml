@@ -1,0 +1,83 @@
+---
+openapi: 3.0.1
+info:
+  title: Hop Skip Drive
+  version: v1
+paths:
+  "/api/v1/rides":
+    get:
+      summary: Returns paginated JSON list of rides in descending score order for
+        a given driver
+      parameters:
+      - name: driver
+        in: query
+      - name: page
+        in: query
+      - name: per_page
+        in: query
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    driving_distance:
+                      type: number
+                    driving_duration:
+                      type: number
+                    commute_distance:
+                      type: number
+                    commute_duration:
+                      type: number
+                    ride_distance:
+                      type: number
+                    ride_duration:
+                      type: number
+                    ride_earnings:
+                      type: number
+                    score:
+                      type: number
+                    ride_id:
+                      type: integer
+                    ride_start_destination_address:
+                      type: array
+                      items:
+                      - type: array
+                        items:
+                        - type: string
+                        - type: string
+                      - type: array
+                        items:
+                        - type: string
+                        - type: string
+                  required:
+                  - driving_distance
+                  - driving_duration
+                  - commute_distance
+                  - commute_duration
+                  - ride_distance
+                  - ride_duration
+                  - ride_earnings
+                  - score
+                  - ride_id
+                  - ride_start_destination_address
+        '404':
+          description: Driver Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                - error
+servers:
+- url: http://{localHost}
+  variables:
+    localHost:
+      default: localhost:3000
